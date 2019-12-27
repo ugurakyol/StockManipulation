@@ -7,6 +7,7 @@
 #include <fstream>
 #include<map>
 #include<iterator>
+#include <bits/stdc++.h> 
 
 using namespace std;
 
@@ -15,18 +16,18 @@ struct product {
     string invoice_no;
     string stock_code;
     string description;
-    int quantity;
+    string quantity;
     string invoice_date;
-    int unit_price;
+    string unit_price;
     string costomer_id;
     string country;
 
     product(string f_invoice_no,
     string f_stock_code,
     string f_description,
-    int f_quantity,
+    string f_quantity,
     string f_invoice_date,
-    int f_unit_price,
+    string f_unit_price,
     string f_costomer_id,
     string f_country)
     {
@@ -43,41 +44,40 @@ struct product {
 
 
 
-void read_csv_file(map<int, product> data);
+
+map<int, product> read_csv_file(map<int, product> data);
 
 int main()
 {
+    
     map<int, product> data;
 
-   data = {
+        data.insert({10,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
+        data.insert({12,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
+        data.insert({11,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
 
-        {9,product("sdf","sdfsdf","sdfs",1,"sdf",2,"dfs","df") }
-    };
-        
+
+   
     
-    read_csv_file(data);
-/*
+    //data.insert_or_assign = read_csv_file(data);
+
     map<int, product>::iterator it;
-
-    it = data.find(1);
-    //it = data.find(2);
-    
-
+ 
     if (it != data.end())
     {
         cout << "The product with id of 1 has " << it->second.description << " cylinders\n";
     }
-*/
+
     for(auto it = data.cbegin(); it != data.cend(); ++it)
-{
-    std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
-}
+    {
+        std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
+    }
 }
 
-void read_csv_file(map<int, product> data){
-       data = {
+map<int, product> read_csv_file(map<int, product> data){
+    data = {
 
-        {10,product("sdf","sdfsdf","sdfs",1,"sdf",2,"dfs","df") }
+        {10,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") }
     };
 
   string str = "storage.csv";
@@ -152,7 +152,7 @@ void read_csv_file(map<int, product> data){
                 
                 data = {
 
-                    {row,product("sdf","sdfsdf","sdfs",1,"sdf",2,"dfs","df") }
+                    {row,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") }
                 };
 
         
@@ -162,5 +162,5 @@ void read_csv_file(map<int, product> data){
 		}
 		file.close();
 	}      
-    
+    return data;
 }
