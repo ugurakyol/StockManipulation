@@ -7,7 +7,7 @@
 #include <fstream>
 #include<map>
 #include<iterator>
-#include <bits/stdc++.h> 
+//#include <bits/stdc++.h> 
 
 using namespace std;
 
@@ -53,43 +53,9 @@ int main()
      
     data.insert({0,product("invoice_no","stock_code","description","quantity","invoice_date","unit_price","costomer_id","country") });
 
-
-
-
-
-
-
-
-/*
-    it = data.find(10);
-    if (it != data.end())
-    {
-        cout << it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
-        " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
-        " "<< it->second.country << " \n";
-    }
-
-*/
-   /*
-    
-    //data.insert_or_assign = read_csv_file(data);
-
-    map<int, product>::iterator it;
- 
-    if (it != data.end())
-    {
-        cout << "The product with id of 1 has " << it->second.description << " cylinders\n";
-    }
-
-    for(auto it = data.cbegin(); it != data.cend(); ++it)
-    {
-        std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
-    }
-
-    */
     string str = "storage.csv";
 
-  ifstream file(str);
+    ifstream file(str);
 
 	if (file.is_open()) {
 
@@ -170,25 +136,55 @@ int main()
      cout << it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
         " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
         " "<< it->second.country << " \n";
+    int id;
+    cout << "Please, enter row id : ";
+    cin>>id;
+    it = data.find(id);
+    if (it != data.end())
+    {
+        cout << it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
+        " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
+        " "<< it->second.country << " \n";
+    }
 
 
+
+/*
+    
+
+    //data.insert_or_assign = read_csv_file(data);
+
+    map<int, product>::iterator it;
+ 
+    if (it != data.end())
+    {
+        cout << "The product with id of 1 has " << it->second.description << " cylinders\n";
+    }
+
+    for(auto it = data.cbegin(); it != data.cend(); ++it)
+    {
+        std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
+    }
+
+*/
 }
 
 void read_csv_file(map<int, product> data){
 
   string str = "storage.csv";
-
   ifstream file(str);
 
 	if (file.is_open()) {
 
 		string line;
         int row = 0;
+
 		while (getline(file, line)) {
 			
 			if(row == 0){
 
             }else{
+
                 string invoice_no = "";
                 string stock_code = "";
                 string description = "";
@@ -209,33 +205,33 @@ void read_csv_file(map<int, product> data){
                                 
                     switch (coloum)
                     {
-                    case 1:
-                    invoice_no = token;
-                    break;
-                    case 2:
-                    stock_code = token;
-                    break;
-                    case 3:
-                    description = token;
-                    break;
-                    case 4:
-                    quantity = token;
-                    break;
-                    case 5:
-                    invoice_date = token;
-                    break;
-                    case 6:
-                    unit_price = token;
-                    break;
-                    case 7:
-                    costomer_id = token;
-                    break;
-                    case 8:
-                    country = token;
-                    break;
-                    
-                    default:
-                    break;
+                        case 1:
+                        invoice_no = token;
+                        break;
+                        case 2:
+                        stock_code = token;
+                        break;
+                        case 3:
+                        description = token;
+                        break;
+                        case 4:
+                        quantity = token;
+                        break;
+                        case 5:
+                        invoice_date = token;
+                        break;
+                        case 6:
+                        unit_price = token;
+                        break;
+                        case 7:
+                        costomer_id = token;
+                        break;
+                        case 8:
+                        country = token;
+                        break;
+                        
+                        default:
+                        break;
                     }
                     token = s.substr(0, pos);
                     s.erase(0, pos + delimiter.length());
