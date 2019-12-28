@@ -44,20 +44,33 @@ struct product {
 
 
 
-
-map<int, product> read_csv_file(map<int, product> data);
+void read_csv_file(map<int, product> data);
 
 int main()
 {
     
     map<int, product> data;
-
-        data.insert({10,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
-        data.insert({12,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
-        data.insert({11,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") });
+     
+    data.insert({0,product("invoice_no","stock_code","description","quantity","invoice_date","unit_price","costomer_id","country") });
 
 
-   
+
+
+
+
+
+
+/*
+    it = data.find(10);
+    if (it != data.end())
+    {
+        cout << it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
+        " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
+        " "<< it->second.country << " \n";
+    }
+
+*/
+   /*
     
     //data.insert_or_assign = read_csv_file(data);
 
@@ -72,36 +85,29 @@ int main()
     {
         std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
     }
-}
 
-map<int, product> read_csv_file(map<int, product> data){
-    data = {
+    */
+    string str = "storage.csv";
 
-        {10,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") }
-    };
-
-  string str = "storage.csv";
-  //printf("Please input xls file name : ");
-  //cin>>str;  
   ifstream file(str);
 
 	if (file.is_open()) {
 
 		string line;
-    int row = 0;
+        int row = 0;
 		while (getline(file, line)) {
 			
 			if(row == 0){
 
             }else{
-                string invoice_no;
-                string stock_code;
-                string description;
-                string quantity;
-                string invoice_date;
-                string unit_price;
-                string costomer_id;
-                string country; 
+                string invoice_no = "";
+                string stock_code = "";
+                string description = "";
+                string quantity = "";
+                string invoice_date = "";
+                string unit_price = "";
+                string costomer_id = "";
+                string country = "";
                 
                 string s = line.c_str();
                 std::string delimiter = ",";
@@ -143,24 +149,107 @@ map<int, product> read_csv_file(map<int, product> data){
                     break;
                     }
                     token = s.substr(0, pos);
-                    //cout << token << "\t";
                     s.erase(0, pos + delimiter.length());
                 }
-                //cout << endl;
-
-
-                
-                data = {
-
-                    {row,product("sdf","sdfsdf","sdfs","1","sdf","2","dfs","df") }
-                };
-
-        
-        
+                /*
+                cout << row<<" " << invoice_no <<" "<<stock_code <<" "<<description <<
+                " "<< quantity <<" "<< invoice_no <<" "<< unit_price <<" "<< costomer_id <<
+                " "<< country << " \n";
+                */
+                data.insert({row,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) });
+                   
             }
 			row++;
 		}
 		file.close();
 	}      
-    return data;
+
+    map<int, product>::iterator it;
+
+    for(it=data.begin();it!=data.end();it++)
+     cout << it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
+        " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
+        " "<< it->second.country << " \n";
+
+
+}
+
+void read_csv_file(map<int, product> data){
+
+  string str = "storage.csv";
+
+  ifstream file(str);
+
+	if (file.is_open()) {
+
+		string line;
+        int row = 0;
+		while (getline(file, line)) {
+			
+			if(row == 0){
+
+            }else{
+                string invoice_no = "";
+                string stock_code = "";
+                string description = "";
+                string quantity = "";
+                string invoice_date = "";
+                string unit_price = "";
+                string costomer_id = "";
+                string country = "";
+                
+                string s = line.c_str();
+                std::string delimiter = ",";
+                size_t pos = 0;
+                std::string token;
+                int coloum = 0;
+
+                while ((pos = s.find(delimiter)) != std::string::npos) {
+                    coloum ++;
+                                
+                    switch (coloum)
+                    {
+                    case 1:
+                    invoice_no = token;
+                    break;
+                    case 2:
+                    stock_code = token;
+                    break;
+                    case 3:
+                    description = token;
+                    break;
+                    case 4:
+                    quantity = token;
+                    break;
+                    case 5:
+                    invoice_date = token;
+                    break;
+                    case 6:
+                    unit_price = token;
+                    break;
+                    case 7:
+                    costomer_id = token;
+                    break;
+                    case 8:
+                    country = token;
+                    break;
+                    
+                    default:
+                    break;
+                    }
+                    token = s.substr(0, pos);
+                    s.erase(0, pos + delimiter.length());
+                }
+                cout << row<<" " << invoice_no <<" "<<stock_code <<" "<<description <<
+                " "<< quantity <<" "<< invoice_no <<" "<< unit_price <<" "<< costomer_id <<
+                " "<< country << " \n";
+
+                data.insert({row,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) });
+                   
+            }
+			row++;
+		}
+		file.close();
+	}      
+   // return data;
 }
