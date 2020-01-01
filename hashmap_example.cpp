@@ -44,16 +44,16 @@ struct product {
     }
 };
 
-void read_csv_file(map<int, product> *data);
-void search(map<int, product> *data );
-void display(map<int, product> *data,int row);
+void read_csv_file(map<string, product> *data);
+void search(map<string, product> *data );
+void display(map<string, product> *data,int row);
 
 int main()
 {
     
-    map<int, product> data;   
+    map<string, product> data;   
      
-    data.insert(std::make_pair(0,product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
+    data.insert(std::make_pair("150",product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
     display(&data,1);
     read_csv_file(&data);
     display(&data,1);
@@ -78,9 +78,9 @@ int main()
 */
 }
 
-void read_csv_file(map<int, product> *data){
+void read_csv_file(map<string, product> *data){
 
-    map<int, product>::iterator find;
+    map<string, product>::iterator find;
     string str = "storage.csv";
     ifstream file(str);
 
@@ -152,25 +152,23 @@ void read_csv_file(map<int, product> *data){
 
                 cout <<"read line: " <<invoice_no <<" \t "<< stock_code <<" \t "<< description <<" \t "<< quantity <<" \t "<< invoice_date <<" \t "<< unit_price <<" \t "<< costomer_id <<" \t "<< country<<endl;
         
-                
-                for(find=data->begin();find!=data->end();find++){ 
+          
 
-   
-                    if(find->second.stock_code == "stock_code"){
+        
+                    find = data->find(stock_code);
 
-                    }else if(find->second.stock_code == stock_code){
-                        
-                        //cout<<"stock are equal ";
-                        //cout <<find->second.stock_code<<" "<< find->second.description<<" is found by this stock code " << stock_code << "sdfgfd"<<endl;
+                    if(find != data->end()){
 
                         find->second.quantity += quantity; 
-                        //cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl;             
-                        
-                    }else{
-                        cout<<"new stock"<<endl;
+                        cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl; 
+
+                    }else{                        
+
+                        data->insert(std::make_pair(stock_code,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) ));
+
                     }
                
-                }
+                
                 //find=data->end();
                 //data->insert(std::make_pair(find->first,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) ));
 
@@ -184,9 +182,9 @@ void read_csv_file(map<int, product> *data){
 	}     
 }
 
-void display(map<int, product> *data,int row){
+void display(map<string, product> *data,int row){
 
-    map<int, product>::iterator it;
+    map<string, product>::iterator it;
 
     for(it=data->begin();it!=data->end();it++)
 
@@ -195,13 +193,13 @@ void display(map<int, product> *data,int row){
         " "<< it->second.country << " \n";
 }
 
-void search(map<int, product> *data ){
+void search(map<string, product> *data ){
 
     int f_stock_code;
     cout << "Please, enter stock code : ";
     cin>>f_stock_code;
    
-    map<int, product>::iterator it;
+    map<string, product>::iterator it;
  
     for(it=data->begin();it!=data->end();it++){               
       
