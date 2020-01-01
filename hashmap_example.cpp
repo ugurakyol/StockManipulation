@@ -160,12 +160,14 @@ void read_csv_file(map<int, product> *data){
 
                     }else if(find->second.stock_code == stock_code){
                         
-                        cout<<"stock are equal ";
-                        cout <<find->second.stock_code<<" "<< find->second.description<<" is found by this stock code " << stock_code << "sdfgfd"<<endl;
+                        //cout<<"stock are equal ";
+                        //cout <<find->second.stock_code<<" "<< find->second.description<<" is found by this stock code " << stock_code << "sdfgfd"<<endl;
 
                         find->second.quantity += quantity; 
-                        cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl;             
+                        //cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl;             
                         
+                    }else{
+                        cout<<"new stock"<<endl;
                     }
                
                 }
