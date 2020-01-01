@@ -18,7 +18,7 @@ struct product {
     string invoice_no;
     string stock_code;
     string description;
-    string quantity;
+    int quantity;
     string invoice_date;
     string unit_price;
     string costomer_id;
@@ -27,7 +27,7 @@ struct product {
     product(string f_invoice_no,
     string f_stock_code,
     string f_description,
-    string f_quantity,
+    int f_quantity,
     string f_invoice_date,
     string f_unit_price,
     string f_costomer_id,
@@ -46,25 +46,20 @@ struct product {
 
 void read_csv_file(map<int, product> *data);
 void search(map<int, product> *data );
-void add_to_stock(map<int, product> *data,int row);
+void display(map<int, product> *data,int row);
 
 int main()
 {
     
-    map<int, product> data;
-    map<int, product> data2;
+    map<int, product> data;   
      
-    //data.insert({0,product("invoice_no","stock_code","description","quantity","invoice_date","unit_price","costomer_id","country") });
-   
+    data.insert(std::make_pair(0,product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
+    //display(&data,1);
     read_csv_file(&data);
 
     search(&data);
 
-   // add_to_stock(&data,1);
- 
-
-
-
+   // display(&data,1);
 
 /*
     //data.insert_or_assign = read_csv_file(data);
@@ -85,8 +80,9 @@ int main()
 
 void read_csv_file(map<int, product> *data){
 
-  string str = "storage.csv";
-  ifstream file(str);
+    map<int, product>::iterator find;
+    string str = "storage.csv";
+    ifstream file(str);
 
 	if (file.is_open()) {
 
@@ -102,12 +98,11 @@ void read_csv_file(map<int, product> *data){
                 string invoice_no = "";
                 string stock_code = "";
                 string description = "";
-                string quantity = "";
+                int quantity = 0;
                 string invoice_date = "";
                 string unit_price = "";
                 string costomer_id = "";
                 string country = "";
-
                 
                 string s = line.c_str();
                 std::string delimiter = ";";
@@ -115,36 +110,38 @@ void read_csv_file(map<int, product> *data){
                 std::string token;
 
                 int coloum = 0;
-
                 while ((pos = s.find(delimiter)) != std::string::npos) {
                     
                     coloum ++;                                
                     switch (coloum)
                     {
                         case 1:                
-                        invoice_no = token.c_str();
+                        
                         break;
                         case 2:
-                        stock_code = token.c_str();
+                        invoice_no = token.c_str();
                         break;
                         case 3:
-                        description = token.c_str();
+                        stock_code = token.c_str();
                         break;
                         case 4:
-                        quantity = token.c_str();
+                        description = token.c_str();
                         break;
                         case 5:
-                        invoice_date = token.c_str();
+                        quantity = std::atoi(token.c_str());
                         break;
                         case 6:
-                        unit_price = token.c_str();
+                        invoice_date = token.c_str();
                         break;
                         case 7:
-                        costomer_id = token.c_str();
+                        unit_price = token.c_str();
                         break;
                         case 8:
+                        costomer_id = token.c_str();
+                        break;
+                        case 9:
                         country = token.c_str();
-                        break;                        
+                        break;                         
                         default:
                         break;
                     }
@@ -152,57 +149,37 @@ void read_csv_file(map<int, product> *data){
                     token = s.substr(0, pos);
                     s.erase(0, pos + delimiter.length());
                 }
-                cout << invoice_no <<" \t "<< stock_code <<" \t "<< description <<" \t "<< quantity <<" \t "<< invoice_date <<" \t "<< unit_price <<" \t "<< costomer_id <<" \t "<< country<<endl;
+
+                cout <<"read line: " <<invoice_no <<" \t "<< stock_code <<" \t "<< description <<" \t "<< quantity <<" \t "<< invoice_date <<" \t "<< unit_price <<" \t "<< costomer_id <<" \t "<< country<<endl;
+        
                 
-                data->insert({                    
-                    row,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) 
-                });
+                for(find=data->begin();find!=data->end();find++){ 
 
-                map<int, product>::iterator it;
+   
+                    if(find->second.stock_code == "stock_code"){
 
-                for(it=data->begin();it!=data->end();it++)
-
-                        cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
-                            " "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
-                            " "<< it->second.country << " \n";
-
-/*
-                map<int, product>::iterator it;
-                for(it=data->begin();it!=data->end();it++){
-
-                    cout<< it->second.stock_code<<endl;
-                    int x = 0; 
-                    std::string s = it->second.stock_code;  
-                    stringstream geek(s);
-
-                    if(it->second.stock_code == "stock_code"){
-
-                    }else{
-
-                        geek >> x; 
-
-                        if(x == stoi(stock_code)){
-                            cout<<it->second.stock_code <<"=="<<stock_code<<endl;
-                            cout << it->second.description << " is inside stock " << it->second.quantity<< "+"<<quantity<<endl; 
+                    }else if(find->second.stock_code == stock_code){
                         
-                        }else{
-                            data->insert({                    
-                                row,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) 
-                            });
-                        }
+                        cout<<"stock are equal ";
+                        cout <<find->second.stock_code<<" "<< find->second.description<<" is found by this stock code " << stock_code << "sdfgfd"<<endl;
 
-
+                        find->second.quantity += quantity; 
+                        cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl;             
+                        
                     }
                
-                }  */                
+                }
+
+                              
             }
 			row++;
+            display(data,2) ;  
 		}
 		file.close();
 	}     
 }
 
-void add_to_stock(map<int, product> *data,int row){
+void display(map<int, product> *data,int row){
 
     map<int, product>::iterator it;
 
@@ -211,19 +188,6 @@ void add_to_stock(map<int, product> *data,int row){
      cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
         " "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
         " "<< it->second.country << " \n";
-
-
-    int id;
-    cout << "Please, enter row id : ";
-    cin>>id;
-
-    it = data->find(id);
-    if (it != data->end())
-    {
-        cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
-        " "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" "<<it->second.costomer_id <<
-        " "<< it->second.country << " \n";
-    }
 }
 
 void search(map<int, product> *data ){
