@@ -54,12 +54,12 @@ int main()
     map<int, product> data;   
      
     data.insert(std::make_pair(0,product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
-    //display(&data,1);
+    display(&data,1);
     read_csv_file(&data);
-
+    display(&data,1);
     search(&data);
 
-   // display(&data,1);
+    
 
 /*
     //data.insert_or_assign = read_csv_file(data);
@@ -171,11 +171,14 @@ void read_csv_file(map<int, product> *data){
                     }
                
                 }
+                //find=data->end();
+                //data->insert(std::make_pair(find->first,product(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country) ));
+
 
                               
             }
 			row++;
-            display(data,2) ;  
+            //display(data,2) ;  
 		}
 		file.close();
 	}     
@@ -224,7 +227,7 @@ void search(map<int, product> *data ){
 
     }
         
-     
+     search(data);
 
 }
 
