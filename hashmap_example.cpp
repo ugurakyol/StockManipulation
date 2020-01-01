@@ -184,6 +184,8 @@ void read_csv_file(map<string, product> *data){
 
 void display(map<string, product> *data,int row){
 
+    cout << " ~~~~~~~~~~~~~~PRODUCT LIST~~~~~~~~~~~~~~~~~~~"<<endl;
+
     map<string, product>::iterator it;
 
     for(it=data->begin();it!=data->end();it++)
@@ -191,6 +193,7 @@ void display(map<string, product> *data,int row){
      cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
         " "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
         " "<< it->second.country << " \n";
+    cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
 }
 
 void search(map<string, product> *data ){
@@ -219,13 +222,8 @@ void search(map<string, product> *data ){
                 <<" \t "<< it->second.costomer_id <<" \t "<< it->second.country << " \n";
 
             }
-
         } 
-
-
-    }
-        
+    }        
      search(data);
-
 }
 
