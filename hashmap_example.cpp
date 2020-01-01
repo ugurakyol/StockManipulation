@@ -67,8 +67,6 @@ int main()
 
 
 /*
-    
-
     //data.insert_or_assign = read_csv_file(data);
 
     map<int, product>::iterator it;
@@ -82,7 +80,6 @@ int main()
     {
         std::cout << it->first << " " << it->second.costomer_id << " df" << it->second.description << "\n";
     }
-
 */
 }
 
@@ -192,31 +189,29 @@ void search(map<int, product> *data ){
     int f_stock_code;
     cout << "Please, enter stock code : ";
     cin>>f_stock_code;
-
-    cout<<endl<<f_stock_code;
+   
     map<int, product>::iterator it;
-
  
     for(it=data->begin();it!=data->end();it++){               
       
         int x = 0; 
         std::string s = it->second.stock_code;  
-        stringstream geek(s); 
-        
-        geek >> x;
+        stringstream geek(s);
+        if(it->second.stock_code == "stock_code"){
 
-        if(x == f_stock_code){
-                cout<<"equal"<<endl;
-        }
-      
-        cout<< it->second.stock_code <<endl;
+        }else{
 
-        if(x == f_stock_code){
-            cout<<f_stock_code<<" in if  "<<  it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
-        " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
-        " "<< it->second.country << " \n";
+            geek >> x; 
+            
+            if(x == f_stock_code){
+                cout<<f_stock_code<<" in if  "<<  it->first <<" " << it->second.invoice_no <<" "<<it->second.stock_code <<" "<<it->second.description <<
+                " "<<it->second.quantity <<" "<< it->second.invoice_no <<" "<< it->second.unit_price <<" "<<it->second.costomer_id <<
+            " "<< it->second.country << " \n";
 
-        }
+            }
+
+        } 
+
 
     }
         
