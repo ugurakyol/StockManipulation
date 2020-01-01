@@ -46,17 +46,17 @@ struct product {
 
 void read_csv_file(map<string, product> *data);
 void search(map<string, product> *data );
-void display(map<string, product> *data,int row);
+void display(map<string, product> *data);
 
 int main()
 {
     
     map<string, product> data;   
      
-    data.insert(std::make_pair("150",product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
-    display(&data,1);
+    //data.insert(std::make_pair("150",product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
+    display(&data);
     read_csv_file(&data);
-    display(&data,1);
+    display(&data);
     search(&data);
 
     
@@ -92,7 +92,7 @@ void read_csv_file(map<string, product> *data){
 		while (getline(file, line)) {
 			
 			if(row == 0){
-                cout << line <<endl;
+                //cout << line <<endl;
             }else{
                 
                 string invoice_no = "";
@@ -150,7 +150,7 @@ void read_csv_file(map<string, product> *data){
                     s.erase(0, pos + delimiter.length());
                 }
 
-                cout <<"read line: " <<invoice_no <<" \t "<< stock_code <<" \t "<< description <<" \t "<< quantity <<" \t "<< invoice_date <<" \t "<< unit_price <<" \t "<< costomer_id <<" \t "<< country<<endl;
+                //cout <<"read line: " <<invoice_no <<" \t "<< stock_code <<" \t "<< description <<" \t "<< quantity <<" \t "<< invoice_date <<" \t "<< unit_price <<" \t "<< costomer_id <<" \t "<< country<<endl;
         
           
 
@@ -160,7 +160,7 @@ void read_csv_file(map<string, product> *data){
                     if(find != data->end()){
 
                         find->second.quantity += quantity; 
-                        cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl; 
+                        //cout<<" new quantive of "<< find->second.description<<" is: "<< find->second.quantity<<endl; 
 
                     }else{                        
 
@@ -176,18 +176,20 @@ void read_csv_file(map<string, product> *data){
                               
             }
 			row++;
-            //display(data,2) ;  
+            //display(data) ;  
 		}
 		file.close();
 	}     
 }
 
-void display(map<string, product> *data,int row){
+void display(map<string, product> *data){
+
+    
 
     cout << " ~~~~~~~~~~~~~~PRODUCT LIST~~~~~~~~~~~~~~~~~~~"<<endl;
 
     map<string, product>::iterator it;
-
+    
     for(it=data->begin();it!=data->end();it++)
 
      cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
@@ -223,7 +225,8 @@ void search(map<string, product> *data ){
 
             }
         } 
-    }        
-     search(data);
+    }  
+    display(data);      
+    search(data);
 }
 
