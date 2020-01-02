@@ -6,7 +6,10 @@
 #include <time.h>
 #include<stdlib.h>
 #include <fstream>
-#include<map>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <functional>
 #include<iterator>
 #include <sstream> 
 //#include <bits/stdc++.h> 
@@ -44,9 +47,45 @@ struct product {
     }
 };
 
+struct node
+{
+    string invoice_no;
+    string stock_code;
+    string description;
+    int quantity;
+    string invoice_date;
+    string unit_price;
+    string costomer_id;
+    string country;
+    struct node *next;
+};
+struct node * list;
+
 void read_csv_file(map<string, product> *data);
 void search(map<string, product> *data );
-void display(map<string, product> *data);
+void display_products(map<string, product> *data);
+
+struct node * createList(
+    string invoice_no,
+    string stock_code,
+    string description,
+    int quantity,
+    string invoice_date,
+    string unit_price,
+    string costomer_id,
+    string country);
+struct node * insertBack(struct node *data,
+    string invoice_no,
+    string stock_code,
+    string description,
+    int quantity,
+    string invoice_date,
+    string unit_price,
+    string costomer_id,
+    string country);
+void sort_quantity(struct node *data);
+void swap();
+void display_top_ten_list(struct node *data);
 
 int main()
 {
@@ -54,9 +93,9 @@ int main()
     map<string, product> data;   
      
     //data.insert(std::make_pair("150",product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
-    display(&data);
+    display_products(&data);
     read_csv_file(&data);
-    display(&data);
+    display_products(&data);
     search(&data);
 
     
@@ -176,26 +215,29 @@ void read_csv_file(map<string, product> *data){
                               
             }
 			row++;
-            //display(data) ;  
+            //display_products(data) ;  
 		}
 		file.close();
 	}     
 }
 
-void display(map<string, product> *data){
-
-    
+void display_products(map<string, product> *data){
 
     cout << " ~~~~~~~~~~~~~~PRODUCT LIST~~~~~~~~~~~~~~~~~~~"<<endl;
 
     map<string, product>::iterator it;
     
-    for(it=data->begin();it!=data->end();it++)
+    for(it=data->begin();it!=data->end();it++){
 
-     cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
+
+
+            cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
         " \t "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
         " \t "<< it->second.country << " \n";
+    }     
     cout << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+
+    //sort_quantity(list);
 }
 
 void search(map<string, product> *data ){
@@ -226,7 +268,146 @@ void search(map<string, product> *data ){
             }
         } 
     }  
-    display(data);      
+    display_products(data);      
     search(data);
+}
+
+struct node * createList(
+    string invoice_no,
+    string stock_code,
+    string description,
+    int quantity,
+    string invoice_date,
+    string unit_price,
+    string costomer_id,
+    string country)
+{
+    struct node * temp;
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->invoice_no=invoice_no;
+    temp->stock_code=stock_code;
+    temp->description=description;
+    temp->quantity=quantity;
+    temp->invoice_date=invoice_date;
+    temp->unit_price=unit_price;
+    temp->costomer_id=costomer_id;
+    temp->country;
+    temp->next=NULL;
+    return temp;
+}
+
+struct node * insertBack(struct node *data,
+    string invoice_no,
+    string stock_code,
+    string description,
+    int quantity,
+    string invoice_date,
+    string unit_price,
+    string costomer_id,
+    string country)
+{
+    struct node * temp = createList(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country);
+    struct node * datatemp;
+    if (data == NULL)
+    {
+        data = temp;
+        return data;
+    }
+    datatemp=data;
+    while(datatemp->next != NULL)
+        datatemp=datatemp->next;
+    datatemp->next = temp;
+    return data;
+}
+
+void sort_quantity(struct node *data)
+{
+
+    int control=1;
+    struct node *tempdata=data;
+    struct node *tempSort;
+    if (tempdata == NULL)
+        exit(0);
+
+    while(control){
+        control=0;
+        tempdata=data;
+
+        while (tempdata->next!=NULL) {
+            if (tempdata->quantity < tempdata->next->quantity)
+            {
+                swap(tempdata,tempdata->next);
+                control=1;
+            }
+            tempdata=tempdata->next;
+        }
+        tempSort=tempdata;
+    }
+        data=tempSort;
+}
+
+void swap(struct node * x, struct node * y)
+{
+    string invoice_no = x->invoice_no;
+    x->invoice_no = y->invoice_no;
+    y->invoice_no = invoice_no;
+
+    string stock_code = x->stock_code;
+    x->stock_code = y->stock_code;
+    y->stock_code = stock_code;
+
+    string description = x->description;
+    x->description = y->description;
+    y->description = description;
+
+    int quantity = x->quantity;
+    x->quantity = y->quantity;
+    y->quantity = quantity;
+
+    string invoice_date = x->invoice_date;
+    x->invoice_date = y->invoice_date;
+    y->invoice_date = invoice_date;
+
+    string unit_price = x->unit_price;
+    x->unit_price = y->unit_price;
+    y->unit_price = unit_price;
+
+    string costomer_id = x->costomer_id;
+    x->costomer_id = y->costomer_id;
+    y->costomer_id = costomer_id;
+
+    string country = x->country;
+    x->country = y->country;
+    y->country = country;
+}
+
+void display_top_ten_list(struct node *data)
+{
+    int cnt=1;
+    if (data == NULL)
+        printf("List is empty\n");
+
+    struct node *temp = data;
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("  invoice_no ~ stock_code ~ description ~ quantity ~ invoice_date ~ unit_price ~ costomer_id ~ country\n");
+
+
+    while (temp != NULL)
+    {   printf("P%u:    %u              %u             %u       %u       %u         %u         %u         %u \n",
+    temp->invoice_no,
+    temp->stock_code,
+    temp->description,
+    temp->quantity,
+    temp->invoice_date,
+    temp->unit_price,
+    temp->costomer_id,
+    temp->country);
+        cnt++;
+        temp=temp->next;
+    }
+
+
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+
 }
 
