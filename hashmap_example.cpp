@@ -11,7 +11,9 @@
 #include <algorithm>
 #include <functional>
 #include<iterator>
-#include <sstream> 
+#include <sstream>
+#include <getopt.h>
+#include <stdbool.h> 
 //#include <bits/stdc++.h> 
 
 using namespace std;
@@ -59,11 +61,11 @@ struct node
     string country;
     struct node *next;
 };
-struct node * list;
+
 
 void read_csv_file(map<string, product> *data);
 void search(map<string, product> *data );
-void display_products(map<string, product> *data);
+void display_products(map<string, product> *data,struct node *list);
 
 struct node * createList(
     string invoice_no,
@@ -74,7 +76,7 @@ struct node * createList(
     string unit_price,
     string costomer_id,
     string country);
-struct node * insertBack(struct node *data,
+struct node *insertBack(struct node *data,
     string invoice_no,
     string stock_code,
     string description,
@@ -91,11 +93,11 @@ int main()
 {
     
     map<string, product> data;   
-     
+    struct node list; 
     //data.insert(std::make_pair("150",product("10","150","pen",1,"1.12.2010 08:26","unit_price","costomer_id","Turkey") ));
-    display_products(&data);
+    display_products(&data,&list);
     read_csv_file(&data);
-    display_products(&data);
+    display_products(&data,&list);
     search(&data);
 
     
@@ -221,11 +223,22 @@ void read_csv_file(map<string, product> *data){
 	}     
 }
 
-void display_products(map<string, product> *data){
+void display_products(map<string, product> *data,struct node *list){
 
     cout << " ~~~~~~~~~~~~~~PRODUCT LIST~~~~~~~~~~~~~~~~~~~"<<endl;
 
     map<string, product>::iterator it;
+
+            list=insertBack(
+            list,
+            "it->second.invoice_no",
+            "stock_code",
+            "description",
+            1,
+            "invoice_date",
+            "unit_price",
+            "costomer_id",
+            "country");
     
     for(it=data->begin();it!=data->end();it++){
 
@@ -268,7 +281,7 @@ void search(map<string, product> *data ){
             }
         } 
     }  
-    display_products(data);      
+    //display_products(data,);      
     search(data);
 }
 
@@ -393,7 +406,8 @@ void display_top_ten_list(struct node *data)
 
 
     while (temp != NULL)
-    {   printf("P%u:    %u              %u             %u       %u       %u         %u         %u         %u \n",
+    {   
+        /*printf("P%u:    %u              %u             %u       %u       %u         %u         %u         %u \n",
     temp->invoice_no,
     temp->stock_code,
     temp->description,
@@ -401,7 +415,7 @@ void display_top_ten_list(struct node *data)
     temp->invoice_date,
     temp->unit_price,
     temp->costomer_id,
-    temp->country);
+    temp->country);*/
         cnt++;
         temp=temp->next;
     }
