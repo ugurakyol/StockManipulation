@@ -230,7 +230,7 @@ void display_products(map<string, product> *data,struct node *list){
     map<string, product>::iterator it;
 
     for(it=data->begin();it!=data->end();it++){
-
+/*
             list=insertBack(list,
             it->second.invoice_no,
             it->second.stock_code,
@@ -240,6 +240,7 @@ void display_products(map<string, product> *data,struct node *list){
             it->second.unit_price,
             it->second.costomer_id,
             it->second.country);
+*/
     
             cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
         " \t "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
@@ -293,6 +294,7 @@ struct node * createList(
     string country)
 {
     struct node * temp;
+    
     temp = (struct node *)malloc(sizeof(struct node));
     temp->invoice_no=invoice_no;
     temp->stock_code=stock_code;
@@ -301,7 +303,7 @@ struct node * createList(
     temp->invoice_date=invoice_date;
     temp->unit_price=unit_price;
     temp->costomer_id=costomer_id;
-    temp->country;
+    temp->country=country;
     temp->next=NULL;
     return temp;
 }
