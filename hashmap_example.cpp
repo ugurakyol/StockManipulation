@@ -229,21 +229,18 @@ void display_products(map<string, product> *data,struct node *list){
 
     map<string, product>::iterator it;
 
-            list=insertBack(
-            list,
-            "it->second.invoice_no",
-            "stock_code",
-            "description",
-            1,
-            "invoice_date",
-            "unit_price",
-            "costomer_id",
-            "country");
-    
     for(it=data->begin();it!=data->end();it++){
 
-
-
+            list=insertBack(list,
+            it->second.invoice_no,
+            it->second.stock_code,
+            it->second.description,
+            it->second.quantity,
+            it->second.invoice_no,
+            it->second.unit_price,
+            it->second.costomer_id,
+            it->second.country);
+    
             cout << it->first <<" " << it->second.invoice_no <<" \t "<<it->second.stock_code <<" \t "<<it->second.description <<
         " \t "<<it->second.quantity <<" \t "<< it->second.invoice_no <<" \t "<< it->second.unit_price <<" \t "<<it->second.costomer_id <<
         " \t "<< it->second.country << " \n";
@@ -309,7 +306,7 @@ struct node * createList(
     return temp;
 }
 
-struct node * insertBack(struct node *data,
+struct node * insertBack(struct node *list,
     string invoice_no,
     string stock_code,
     string description,
@@ -321,16 +318,16 @@ struct node * insertBack(struct node *data,
 {
     struct node * temp = createList(invoice_no,stock_code,description,quantity,invoice_date,unit_price,costomer_id,country);
     struct node * datatemp;
-    if (data == NULL)
+    if (list == NULL)
     {
-        data = temp;
-        return data;
+        list = temp;
+        return list;
     }
-    datatemp=data;
+    datatemp=list;
     while(datatemp->next != NULL)
         datatemp=datatemp->next;
     datatemp->next = temp;
-    return data;
+    return list;
 }
 
 void sort_quantity(struct node *data)
@@ -407,20 +404,12 @@ void display_top_ten_list(struct node *data)
 
     while (temp != NULL)
     {   
-        /*printf("P%u:    %u              %u             %u       %u       %u         %u         %u         %u \n",
-    temp->invoice_no,
-    temp->stock_code,
-    temp->description,
-    temp->quantity,
-    temp->invoice_date,
-    temp->unit_price,
-    temp->costomer_id,
-    temp->country);*/
+        cout << temp->invoice_no +" "+ temp->stock_code +" "+ temp->description +" ";
+        cout << temp->quantity +" "+ temp->invoice_date +" "+ temp->unit_price +" ";
+        cout << temp->costomer_id +" "+ temp->country<<endl;
         cnt++;
         temp=temp->next;
     }
-
-
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
 }
